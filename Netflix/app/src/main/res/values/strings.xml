@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Netflix</string>
+    <string name="app_logo">@drawable/ic_logo_netflix</string>
+</resources>
