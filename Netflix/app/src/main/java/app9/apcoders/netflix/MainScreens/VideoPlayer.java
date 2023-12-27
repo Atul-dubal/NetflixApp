@@ -15,8 +15,6 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-import java.util.ArrayList;
-
 import app9.apcoders.netflix.R;
 
 public class VideoPlayer extends AppCompatActivity {
@@ -30,6 +28,7 @@ public class VideoPlayer extends AppCompatActivity {
         setContentView(R.layout.activity_video_player);
         playerView = findViewById(R.id.exoplayer);
         getSupportActionBar().hide();
+        player = new ExoPlayer.Builder(this).build();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -48,13 +47,27 @@ public class VideoPlayer extends AppCompatActivity {
             alertDialog.show();
             alertDialog.setCanceledOnTouchOutside(false);
         } else {
-            setUpExoplayer(getIntent().getStringExtra("url"));
+            if (networkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("No Wifi Connection");
+                builder.setMessage("Please turn on your Wifi connection to continue.Video only play on wifi connection & not used cellular data.");
+                builder.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        onBackPressed();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.setCanceledOnTouchOutside(false);
+            } else {
+                setUpExoplayer(getIntent().getStringExtra("url"));
+            }
         }
-
     }
 
     private void setUpExoplayer(String url) {
-        player = new ExoPlayer.Builder(this).build();
+
         playerView.setPlayer(player);
         // Build the media item.
         MediaItem mediaItem = MediaItem.fromUri(url);
