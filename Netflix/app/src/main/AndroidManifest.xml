@@ -80,6 +80,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activities.AppUpdateScreen"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"
             android:screenOrientation="portrait">

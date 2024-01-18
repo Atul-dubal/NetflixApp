@@ -43,6 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         today = c.getTime();
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -84,7 +85,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                     Valid_Date = documentSnapshot.getDate("ValidDate");
 
                                     if (Valid_Date.compareTo(today) >= 0) {
-                                        startActivity(new Intent(SplashScreenActivity.this, MainScreen.class));
+                                        startActivity(new Intent(SplashScreenActivity.this, AppUpdateScreen.class));
                                         finish();
                                     } else {
                                         Intent i = new Intent(SplashScreenActivity.this, PaymentOverdue.class);
